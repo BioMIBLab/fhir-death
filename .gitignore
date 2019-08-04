@@ -1,6 +1,6 @@
 # Ignore project docs and other related repos
 
-fhir-death
+fhir-death-ios
 smart-dev-sandbox
 excl-*
 
