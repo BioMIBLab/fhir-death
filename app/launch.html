@@ -50,7 +50,7 @@
       
       var serviceUrl = urlparams.iss;
       var launchUrl = window.location.href;
-      var redirectUrl = launchUrl.replace("launch.html","");
+      var redirectUrl = launchUrl.split("launch.html")[0];
       
       var launchContextId = urlparams.launch;
       
@@ -92,16 +92,21 @@
         
         var authUrl, tokenUrl;
         
-        var smart = d.rest[0].security.extension.filter(function (e) {
-           return (e.url === "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris");
-        });
-        smart[0].extension.forEach(function(arg, index, array){
-          if (arg.url === "authorize") {
-            authUrl = arg.valueUri;
-          } else if (arg.url === "token") {
-            tokenUrl = arg.valueUri;
-          }
-        });
+        try {
+          var smart = d.rest[0].security.extension.filter(function (e) {
+             return (e.url === "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris");
+          });
+          smart[0].extension.forEach(function(arg, index, array){
+            if (arg.url === "authorize") {
+              authUrl = arg.valueUri;
+            } else if (arg.url === "token") {
+              tokenUrl = arg.valueUri;
+            }
+          });
+        } catch(err) {
+          authUrl = ""
+          tokenUrl = ""
+        }
         
         sessionStorage[state] = JSON.stringify({
             clientId: clientId,
