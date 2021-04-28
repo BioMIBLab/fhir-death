@@ -107,7 +107,7 @@ function init(err, pat, cond, obs) {
   
   if (DEBUG) console.log(cond);
   fhirdata.conditions = cond.entry.filter(function(element) {
-    return element.resource.patient.reference.split("/").pop() === fhirdata.patient.id;
+    return element.resource.subject.reference.split("/").pop() === fhirdata.patient.id;
   });
   
   date_time_init();
